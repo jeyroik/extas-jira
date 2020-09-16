@@ -1,0 +1,11 @@
+{
+  "name": "extas/jira",
+  "extensions": [
+    {
+      "class": "extas\\components\\extensions\\jira\\ExtensionJiraRepositories",
+      "interface": "extas\\interfaces\\extensions\\jira\\IExtensionJiraRepositories",
+      "subject": "*",
+      "methods": ["jiraIssues"]
+    }
+  ]
+}
