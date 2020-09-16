@@ -3,9 +3,11 @@ namespace extas\components\jira;
 
 use extas\components\exceptions\MissedOrUnknown;
 use extas\components\Item;
+use extas\interfaces\extensions\jira\uri\IExtensionExpand;
 use extas\interfaces\jira\IJiraClient;
 use extas\interfaces\jira\IJIraRepository;
 use extas\interfaces\jira\IJql;
+use extas\interfaces\jira\IUri;
 use extas\interfaces\jira\results\IHasMaxResults;
 use extas\interfaces\jira\results\IHasStartAt;
 use extas\components\secrets\Secret;
@@ -26,24 +28,30 @@ abstract class JiraRepository extends Item implements IJIraRepository
      * @param $where
      * @param int $offset
      * @param int $limit
-     * @return \|mixed
+     * @param array $orderBy [field, ASC|DESC]
+     * @param array $fields
+     * @return mixed
      * @throws MissedOrUnknown
      */
-    protected function get($where, int $offset = 0, int $limit = 0)
+    protected function get($where, int $offset = 0, int $limit = 0, array $orderBy = [], array $fields = [])
     {
         $client = $this->getClient();
 
-        $uri = new Uri([
-            Uri::FIELD__PATH => $this->getScope()
-        ]);
+        /**
+         * @var IExtensionExpand|IUri $uri
+         */
+        $uri = new Uri([Uri::FIELD__PATH => $this->getScope()]);
+
+        $this->appendOrderBy($where, $orderBy);
 
         $where instanceof IJql
-            ? $uri->add('jql', $where->__toString())
+            ? $uri->add('jql', urlencode($where->__toString()))
             : $uri->addParams($where);
 
         $uri->add(IHasStartAt::FIELD__START_AT, $offset);
 
         $limit && $uri->add(IHasMaxResults::FIELD__MAX_RESULTS, $limit);
+        !empty($fields) && $uri->expand($fields);
 
         return $this->getResult($client->get($uri));
     }
@@ -53,7 +61,7 @@ abstract class JiraRepository extends Item implements IJIraRepository
      */
     public function getPk(): string
     {
-        return $this->config[static::OPTION__COLLECTION_UID];
+        return $this->config[static::OPTION__COLLECTION_UID] ?? '';
     }
 
     /**
@@ -61,7 +69,7 @@ abstract class JiraRepository extends Item implements IJIraRepository
      */
     public function getItemClass(): string
     {
-        return $this->config[static::OPTION__ITEM_CLASS];
+        return $this->config[static::OPTION__ITEM_CLASS] ?? '';
     }
 
     /**
@@ -69,7 +77,7 @@ abstract class JiraRepository extends Item implements IJIraRepository
      */
     public function getScope(): string
     {
-        return $this->config[static::OPTION__REPOSITORY_SCOPE];
+        return $this->config[static::OPTION__REPOSITORY_SCOPE] ?? '';
     }
 
     /**
@@ -77,7 +85,7 @@ abstract class JiraRepository extends Item implements IJIraRepository
      */
     public function getName(): string
     {
-        return $this->config[static::OPTION__REPOSITORY_NAME];
+        return $this->config[static::OPTION__REPOSITORY_NAME] ?? '';
     }
 
     /**
@@ -127,6 +135,28 @@ abstract class JiraRepository extends Item implements IJIraRepository
     public function drop(): bool
     {
         throw new \Exception('Method is not allowed');
+    }
+
+    /**
+     * @param mixed $where
+     * @param array $orderBy
+     * @return IJql|mixed
+     */
+    protected function appendOrderBy($where, array $orderBy)
+    {
+        if (empty($orderBy)) {
+            $orderBy = ['id', 'desc'];
+        }
+
+        $orderMap = [-1 => 'desc', 1 => 'asc'];
+
+        list($field, $order) = $orderBy;
+
+        $where instanceof IJql
+            ? $where->orderBy($field, $orderMap[$order] ?? 'desc')
+            : $where[] = 'ORDER BY ' . implode(' ', $orderBy);
+
+        return $where;
     }
 
     /**

@@ -5,18 +5,23 @@ use Dotenv\Dotenv;
 use extas\components\extensions\Extension;
 use extas\components\extensions\jira\ExtensionJiraRepositories;
 use extas\components\extensions\jira\jql\ExtensionIn;
+use extas\components\extensions\jira\uri\ExtensionExpand;
 use extas\components\http\TSnuffHttp;
 use extas\components\Item;
+use extas\components\jira\issues\Issue;
 use extas\components\jira\Jql;
+use extas\components\jira\SchemaItem;
 use extas\components\repositories\TSnuffRepositoryDynamic;
 use extas\components\secrets\resolvers\ResolverPhpEncryption;
 use extas\components\secrets\Secret;
 use extas\components\THasMagicClass;
 use extas\interfaces\extensions\jira\IExtensionJiraRepositories;
 use extas\interfaces\extensions\jira\jql\IExtensionIn;
+use extas\interfaces\extensions\jira\uri\IExtensionExpand;
 use extas\interfaces\jira\IJIraRepository;
 use extas\interfaces\jira\IJql;
 use extas\interfaces\jira\issues\IIssue;
+use extas\interfaces\jira\issues\IIssues;
 use extas\interfaces\samples\parameters\ISampleParameter;
 use PHPUnit\Framework\TestCase;
 use tests\jira\misc\HttpClient;
@@ -39,6 +44,7 @@ class IssuesTest extends TestCase
         $this->createInstanceDataSecret();
         $this->installRepositoriesExtension();
         $this->installJqlExtensions();
+        $this->installUriExtensions();
         $this->settHttpClient();
     }
 
@@ -49,8 +55,73 @@ class IssuesTest extends TestCase
 
     public function testOneIssue()
     {
-        $item = new class extends Item {
-            public function find()
+        $item = $this->getSearchItem();
+
+        $issues = $item->find();
+        $this->assertNotEmpty($issues, 'Can not extract issues');
+        $this->assertEquals(
+            1,
+            $issues->count(),
+            'Incorrect issues number: ' . print_r($issues, true)
+        );
+
+        foreach ($issues as $issue) {
+            $this->assertInstanceOf(
+                Issue::class,
+                $issue,
+                'Incorrect issue: ' . print_r($issue, true)
+            );
+        }
+
+        $issues->rewind();
+        $issue = $issues->current();
+        $this->assertEquals('JRK-1', $issue->getKey(), 'Incorrect issue key: ' . $issue->getKey());
+        $this->assertEquals(
+            [
+                'operations',
+                'versionedrepresentations',
+                'editmeta',
+                'changelog',
+                'renderedfields'
+            ],
+            $issue->getExpand(),
+            'Incorrect expand: ' . print_r($issue->getExpand(), true)
+        );
+        $this->assertEquals(
+            'https://some.url/rest/api/2/search?'
+            . 'jql=' . urlencode('(test = "is ok") and (assignee in (jeyroik,test)) ORDER BY id asc')
+            . '&startAt=1'
+            . '&maxResults=1'
+            . '&expand=operations,names',
+            $issue->getSelf(),
+            'Incorrect uri: ' . $issue->getSelf()
+        );
+        $this->assertEquals(
+            [
+                'customfield_1290' => 'Test'
+            ],
+            $issues->getFieldsNames(),
+            'Incorrect names: ' . print_r($issues->getFieldsNames(), true)
+        );
+        $this->assertEquals(
+            [
+                'customfield_1290' => new SchemaItem([
+                    'type' => 'string',
+                    'custom' => 'com.atlassian.jira.plugin.system.customfieldtypes:textfield',
+                    'customId' => 11200
+                ])
+            ],
+            $issues->getFieldsSchema(),
+            'Incorrect names: ' . print_r($issues->getFieldsSchema(), true)
+        );
+    }
+
+    protected function getSearchItem()
+    {
+        return new class ([
+            'test' => $this
+        ]) extends Item {
+            public function find(): IIssues
             {
                 /**
                  * @var IExtensionIn|IJql $jql
@@ -59,7 +130,19 @@ class IssuesTest extends TestCase
                 $jql->andCondition('test', '=', '"is ok"')
                     ->andIn('assignee', ['jeyroik', 'test']);
 
-                return $this->jiraIssues('test', 'test')->all($jql, 1, 1);
+                /**
+                 * @var IJIraRepository $repo
+                 */
+                $repo = $this->jiraIssues('test', 'test');
+
+                $this->test->assertEmpty($repo->getPk(), 'PK is not empty: ' . $repo->getPk());
+                $this->test->assertEquals(
+                    Issue::class,
+                    $repo->getItemClass(),
+                    'Incorrect issue class: ' . $repo->getItemClass()
+                );
+
+                return $repo->all($jql, 1, 1, ['id', 1], ['operations', 'names']);
             }
 
             protected function getSubjectForExtension(): string
@@ -67,28 +150,6 @@ class IssuesTest extends TestCase
                 return 'test.item';
             }
         };
-
-        $issues = $item->find();
-        $this->assertNotEmpty($issues, 'Can not extract issues');
-
-        $this->assertCount(
-            1,
-            $issues,
-            'Incorrect issues number: ' . print_r($issues, true)
-        );
-
-        /**
-         * @var IIssue $issue
-         */
-        $issue = array_shift($issues);
-        $this->assertEquals(
-            'https://some.url/rest/api/2/search?'
-            . 'jql=(test = "is ok") and (assignee in (jeyroik,test))'
-            .'&startAt=1'
-            .'&maxResults=1',
-            $issue->getSelf(),
-            'Incorrect uri: ' . $issue->getSelf()
-        );
     }
 
     protected function settHttpClient(): void
@@ -96,6 +157,16 @@ class IssuesTest extends TestCase
         $this->addReposForExt([
             'httpClient' => HttpClient::class
         ]);
+    }
+
+    protected function installUriExtensions(): void
+    {
+        $this->createWithSnuffRepo('extensionRepository', new Extension([
+            Extension::FIELD__CLASS => ExtensionExpand::class,
+            Extension::FIELD__INTERFACE => IExtensionExpand::class,
+            Extension::FIELD__SUBJECT => 'extas.jira.uri',
+            Extension::FIELD__METHODS => ['expand']
+        ]));
     }
 
     protected function installJqlExtensions(): void

@@ -1,7 +1,7 @@
 <?php
 namespace extas\interfaces\extensions\jira\uri;
 
-use extas\interfaces\terms\jira\IUri;
+use extas\interfaces\jira\IUri;
 
 /**
  * Interface IExtensionExpand

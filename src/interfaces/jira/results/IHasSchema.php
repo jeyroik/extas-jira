@@ -11,7 +11,7 @@ use extas\interfaces\jira\ISchemaItem;
  */
 interface IHasSchema
 {
-    public const FIELD__NAME = 'schema';
+    public const FIELD__SCHEMA = 'schema';
 
     /**
      * @return ISchemaItem[]

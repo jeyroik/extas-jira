@@ -25,10 +25,27 @@ class HttpClient extends Client
     {
         $response = $this->getPsrResponse();
         $response->getBody()->write(json_encode([
+            'expand' => 'names,schema',
+            'startAt' => 1,
+            'maxResults' => 1,
+            'total' => 314,
             'issues' => [
                 [
                     'key' => 'JRK-1',
-                    'self' => $uri
+                    'expand' => 'operations,versionedRepresentations,editmeta,changelog,renderedFields',
+                    'self' => $uri,
+                    'fields' => [
+                    ]
+                ]
+            ],
+            'names' => [
+                'customfield_1290' => 'Test'
+            ],
+            'schema' => [
+                'customfield_1290' => [
+                    'type' => 'string',
+                    'custom' => 'com.atlassian.jira.plugin.system.customfieldtypes:textfield',
+                    'customId' => 11200
                 ]
             ]
         ]));
