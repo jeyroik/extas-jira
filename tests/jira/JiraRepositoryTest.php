@@ -43,6 +43,10 @@ class JiraRepositoryTest extends TestCase
         $result = $repo->getResult($data);
         $this->assertInstanceOf(PluginEmpty::class, $result);
         $this->assertEquals(['test' => 'is ok'], $result->__toArray());
+
+        $repo[JiraRepository::FIELD__RESULT_CLASS_GET] = null;
+        $this->expectExceptionMessage('Missed or unknown ' . JiraRepository::FIELD__RESULT_CLASS_GET . ' result class');
+        $repo->getResult($data);
     }
 
     public function testDrop()

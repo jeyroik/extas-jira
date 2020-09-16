@@ -104,6 +104,15 @@ class IssuesTest extends TestCase
             $issues->getNames(),
             'Incorrect names: ' . print_r($issues->getNames(), true)
         );
+        $this->assertTrue(
+            $issues->hasName('customfield_1290'),
+            'Missed name for the customfield_1290'
+        );
+        $this->assertEquals(
+            'Test',
+            $issues->getName('customfield_1290'),
+            'Incorrect name for the customfield_1290: ' . $issues->getName('customfield_1290')
+        );
         $this->assertEquals(
             [
                 'customfield_1290' => new SchemaItem([
@@ -117,12 +126,48 @@ class IssuesTest extends TestCase
         );
     }
 
+    public function testDefaultOrderBy()
+    {
+        $item = $this->getSearchItem();
+
+        $issues = $item->find([]);
+        $issue = $issues->current();
+        $this->assertEquals(
+            'https://some.url/rest/api/2/search?'
+            . 'jql=' . urlencode('(test = "is ok") and (assignee in (jeyroik,test)) ORDER BY id desc')
+            . '&startAt=1'
+            . '&maxResults=1'
+            . '&expand=operations,names',
+            $issue->getSelf(),
+            'Incorrect uri: ' . $issue->getSelf()
+        );
+    }
+
+    public function testMissedSecret()
+    {
+        $this->getMagicClass('secrets')->drop();
+        $item = $this->getSearchItem();
+
+        $this->expectExceptionMessage('Missed or unknown Jira instance "test" secret');
+        $item->find([]);
+    }
+
+    public function testIncorrectSecret()
+    {
+        $this->getMagicClass('secrets')->drop();
+        $this->createInstanceDataSecret(false);
+        $item = $this->getSearchItem();
+
+        $this->expectExceptionMessage('Can not decrypt Jira instance "test" config');
+        $item->find([]);
+    }
+
     protected function getSearchItem()
     {
         return new class ([
             'test' => $this
         ]) extends Item {
-            public function find(): ISearchResult
+            public function find(array $orderBy = ['id', 1]): ISearchResult
             {
                 /**
                  * @var IExtensionIn|IJql $jql
@@ -143,7 +188,7 @@ class IssuesTest extends TestCase
                     'Incorrect issue class: ' . $repo->getItemClass()
                 );
 
-                return $repo->all($jql, 1, 1, ['id', 1], ['operations', 'names']);
+                return $repo->all($jql, 1, 1, $orderBy, ['operations', 'names']);
             }
 
             protected function getSubjectForExtension(): string
@@ -190,7 +235,7 @@ class IssuesTest extends TestCase
         ]));
     }
 
-    protected function createInstanceDataSecret(): void
+    protected function createInstanceDataSecret(bool $encrypt = true): void
     {
         $secret = new Secret([
             Secret::FIELD__TARGET => IJIraRepository::SERVICE__NAME,
@@ -207,7 +252,7 @@ class IssuesTest extends TestCase
                 ]
             ]
         ]);
-        $secret->encrypt();
+        $encrypt && $secret->encrypt();
         $this->getMagicClass('secrets')->create($secret);
     }
 }
