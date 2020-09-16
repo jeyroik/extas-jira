@@ -18,6 +18,6 @@ trait THasMaxResults
      */
     public function getMaxResults(): int
     {
-        return $this->confg[IHasMaxResults::FIELD__MAX_RESULTS] ?? 0;
+        return $this->config[IHasMaxResults::FIELD__MAX_RESULTS] ?? 0;
     }
 }

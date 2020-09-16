@@ -22,6 +22,7 @@ use extas\interfaces\jira\IJIraRepository;
 use extas\interfaces\jira\IJql;
 use extas\interfaces\jira\issues\IIssue;
 use extas\interfaces\jira\issues\IIssues;
+use extas\interfaces\jira\results\issues\ISearchResult;
 use extas\interfaces\samples\parameters\ISampleParameter;
 use PHPUnit\Framework\TestCase;
 use tests\jira\misc\HttpClient;
@@ -61,8 +62,8 @@ class IssuesTest extends TestCase
         $this->assertNotEmpty($issues, 'Can not extract issues');
         $this->assertEquals(
             1,
-            $issues->count(),
-            'Incorrect issues number: ' . print_r($issues, true)
+            $issues->getMaxResults(),
+            'Incorrect issues number: ' . print_r($issues->getMaxResults(), true)
         );
 
         foreach ($issues as $issue) {
@@ -100,8 +101,8 @@ class IssuesTest extends TestCase
             [
                 'customfield_1290' => 'Test'
             ],
-            $issues->getFieldsNames(),
-            'Incorrect names: ' . print_r($issues->getFieldsNames(), true)
+            $issues->getNames(),
+            'Incorrect names: ' . print_r($issues->getNames(), true)
         );
         $this->assertEquals(
             [
@@ -111,8 +112,8 @@ class IssuesTest extends TestCase
                     'customId' => 11200
                 ])
             ],
-            $issues->getFieldsSchema(),
-            'Incorrect names: ' . print_r($issues->getFieldsSchema(), true)
+            $issues->getSchema(),
+            'Incorrect names: ' . print_r($issues->getSchema(), true)
         );
     }
 
@@ -121,7 +122,7 @@ class IssuesTest extends TestCase
         return new class ([
             'test' => $this
         ]) extends Item {
-            public function find(): IIssues
+            public function find(): ISearchResult
             {
                 /**
                  * @var IExtensionIn|IJql $jql
