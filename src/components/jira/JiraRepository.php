@@ -44,10 +44,7 @@ abstract class JiraRepository extends Item implements IJIraRepository
 
         $this->appendOrderBy($where, $orderBy);
 
-        $where instanceof IJql
-            ? $uri->add('jql', urlencode($where->__toString()))
-            : $uri->addParams($where);
-
+        $uri->add('jql', urlencode($where->__toString()));
         $uri->add(IHasStartAt::FIELD__START_AT, $offset);
 
         $limit && $uri->add(IHasMaxResults::FIELD__MAX_RESULTS, $limit);
@@ -152,9 +149,7 @@ abstract class JiraRepository extends Item implements IJIraRepository
 
         list($field, $order) = $orderBy;
 
-        $where instanceof IJql
-            ? $where->orderBy($field, $orderMap[$order] ?? 'desc')
-            : $where[] = 'ORDER BY ' . implode(' ', $orderBy);
+        $where->orderBy($field, $orderMap[$order] ?? 'desc');
 
         return $where;
     }
