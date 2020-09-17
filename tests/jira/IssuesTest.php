@@ -125,6 +125,28 @@ class IssuesTest extends TestCase
             $issues->getSchema(),
             'Incorrect names: ' . print_r($issues->getSchema(), true)
         );
+
+        $schemaItems = $issues->getSchema();
+        $schemaItem = array_shift($schemaItems);
+        $this->assertEquals(
+            11200,
+            $schemaItem->getCustomId(),
+            'Incorrect custom id: ' . $schemaItem->getCustomId()
+        );
+        $this->assertEquals(
+            'com.atlassian.jira.plugin.system.customfieldtypes:textfield',
+            $schemaItem->getCustom(),
+            'Incorrect custom: ' . $schemaItem->getCustom()
+        );
+        $this->assertEquals(
+            '',
+            $schemaItem->getSystem(),
+            'Incorrect system: ' . $schemaItem->getSystem()
+        );
+        $this->assertTrue(
+            $schemaItem->isTypeOf('string'),
+            'Incorrect type: ' . $schemaItem->getType()
+        );
     }
 
     public function testDefaultOrderBy()
