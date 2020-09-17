@@ -1,5 +1,5 @@
 <?php
-namespace tests\jira;
+namespace tests\jira\issues;
 
 use Dotenv\Dotenv;
 use extas\components\jira\issues\IssueRepository;

@@ -2,6 +2,7 @@
 namespace extas\components\jira\issues;
 
 use extas\components\Item;
+use extas\components\jira\issues\fields\THasFields;
 use extas\components\jira\THasExpand;
 use extas\components\jira\THasKey;
 use extas\components\jira\THasSelf;
@@ -20,6 +21,7 @@ class Issue extends Item implements IIssue
     use THasExpand;
     use THasKey;
     use THasSelf;
+    use THasFields;
 
     /**
      * @return string

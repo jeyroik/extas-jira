@@ -6,6 +6,7 @@ use extas\interfaces\IItem;
 use extas\interfaces\jira\IHasExpand;
 use extas\interfaces\jira\IHasKey;
 use extas\interfaces\jira\IHasSelf;
+use extas\interfaces\jira\issues\fields\IHasFields;
 
 /**
  * Interface IIssue
@@ -13,7 +14,7 @@ use extas\interfaces\jira\IHasSelf;
  * @package extas\interfaces\jira\issues
  * @author jeyroik <jeyroik@gmail.com>
  */
-interface IIssue extends IItem, IHasId, IHasExpand, IHasSelf, IHasKey
+interface IIssue extends IItem, IHasId, IHasExpand, IHasSelf, IHasKey, IHasFields
 {
     public const SUBJECT = 'extas.jira.issue';
 }

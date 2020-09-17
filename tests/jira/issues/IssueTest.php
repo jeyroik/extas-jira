@@ -1,5 +1,5 @@
 <?php
-namespace tests\jira;
+namespace tests\jira\issues;
 
 use Dotenv\Dotenv;
 use extas\components\extensions\Extension;
@@ -21,14 +21,18 @@ use extas\interfaces\extensions\jira\jql\IExtensionIn;
 use extas\interfaces\extensions\jira\uri\IExtensionExpand;
 use extas\interfaces\jira\IJIraRepository;
 use extas\interfaces\jira\IJql;
-use extas\interfaces\jira\issues\IIssue;
-use extas\interfaces\jira\issues\IIssues;
 use extas\interfaces\jira\results\issues\ISearchResult;
 use extas\interfaces\samples\parameters\ISampleParameter;
 use PHPUnit\Framework\TestCase;
 use tests\jira\misc\HttpClient;
 
-class IssuesTest extends TestCase
+/**
+ * Class IssueTest
+ *
+ * @package tests\jira
+ * @author jeyroik <jeyroik@gmail.com>
+ */
+class IssueTest extends TestCase
 {
     use TSnuffRepositoryDynamic;
     use THasMagicClass;
