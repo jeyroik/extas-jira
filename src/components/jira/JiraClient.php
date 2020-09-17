@@ -8,7 +8,6 @@ use extas\interfaces\jira\IJiraClient;
 use extas\interfaces\jira\IUri;
 use extas\interfaces\jira\results\IResultSearch;
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
 
 /**
  * Class JiraClient
@@ -49,19 +48,6 @@ class JiraClient extends Item implements IJiraClient
     public function getCredentials(): array
     {
         return $this->config[static::FIELD__CREDENTIALS] ?? [];
-    }
-
-    /**
-     * @return ClientInterface
-     * @throws MissedOrUnknown
-     */
-    public function getHttpClient(): ClientInterface
-    {
-        if (!isset($this->config[static::FIELD__HTTP_CLIENT])) {
-            throw new MissedOrUnknown('http client');
-        }
-
-        return $this->config[static::FIELD__HTTP_CLIENT];
     }
 
     /**

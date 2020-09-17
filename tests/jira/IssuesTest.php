@@ -66,6 +66,11 @@ class IssuesTest extends TestCase
             $issues->getMaxResults(),
             'Incorrect issues number: ' . print_r($issues->getMaxResults(), true)
         );
+        $this->assertEquals(
+            1,
+            $issues->getStartAt(),
+            'Incorrect start at: ' . $issues->getStartAt()
+        );
 
         foreach ($issues as $issue) {
             $this->assertInstanceOf(
@@ -146,6 +151,10 @@ class IssuesTest extends TestCase
         $this->assertTrue(
             $schemaItem->isTypeOf('string'),
             'Incorrect type: ' . $schemaItem->getType()
+        );
+        $this->assertEmpty(
+            $schemaItem->getItems(),
+            'Incorrect items: ' . $schemaItem->getItems()
         );
     }
 
