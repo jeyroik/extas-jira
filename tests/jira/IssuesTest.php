@@ -9,6 +9,7 @@ use extas\components\extensions\jira\uri\ExtensionExpand;
 use extas\components\http\TSnuffHttp;
 use extas\components\Item;
 use extas\components\jira\issues\Issue;
+use extas\components\jira\issues\IssueRepository;
 use extas\components\jira\Jql;
 use extas\components\jira\SchemaItem;
 use extas\components\repositories\TSnuffRepositoryDynamic;
@@ -130,7 +131,7 @@ class IssuesTest extends TestCase
     {
         $item = $this->getSearchItem();
 
-        $issues = $item->find([]);
+        $issues = $item->find([], true);
         $issue = $issues->current();
         $this->assertEquals(
             'https://some.url/rest/api/2/search?'
@@ -167,7 +168,7 @@ class IssuesTest extends TestCase
         return new class ([
             'test' => $this
         ]) extends Item {
-            public function find(array $orderBy = ['id', 1]): ISearchResult
+            public function find(array $orderBy = ['id', 1], bool $isOne = false): ISearchResult
             {
                 /**
                  * @var IExtensionIn|IJql $jql
@@ -177,7 +178,7 @@ class IssuesTest extends TestCase
                     ->andIn('assignee', ['jeyroik', 'test']);
 
                 /**
-                 * @var IJIraRepository $repo
+                 * @var IssueRepository $repo
                  */
                 $repo = $this->jiraIssues('test', 'test');
 
@@ -188,7 +189,9 @@ class IssuesTest extends TestCase
                     'Incorrect issue class: ' . $repo->getItemClass()
                 );
 
-                return $repo->all($jql, 1, 1, $orderBy, ['operations', 'names']);
+                return $isOne
+                    ? $repo->one($jql, 1, ['operations', 'names'])
+                    : $repo->all($jql, 1, 1, $orderBy, ['operations', 'names']);
             }
 
             protected function getSubjectForExtension(): string
