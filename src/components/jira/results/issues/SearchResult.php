@@ -9,6 +9,7 @@ use extas\components\jira\results\THasSchema;
 use extas\components\jira\results\THasStartAt;
 use extas\components\jira\results\THasTotal;
 use extas\components\jira\THasExpand;
+use extas\interfaces\jira\issues\IIssue;
 use extas\interfaces\jira\results\issues\ISearchResult;
 
 /**
@@ -26,6 +27,26 @@ class SearchResult extends Item implements ISearchResult
     use THasStartAt;
     use THasTotal;
     use THasSchema;
+
+    /**
+     * @return bool
+     */
+    public function valid()
+    {
+        $issues = $this->getIssues();
+
+        return isset($issues[$this->currentKey]);
+    }
+
+    /**
+     * @return IIssue|mixed|null
+     */
+    public function current()
+    {
+        $issues = $this->getIssues();
+
+        return $issues[$this->currentKey];
+    }
 
     /**
      * @return string

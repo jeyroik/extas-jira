@@ -15,10 +15,20 @@ interface IJql extends IItem
 
     public const FIELD__QUERY = 'query';
 
+    public const ORDER__ASC = 'ASC';
+    public const ORDER__DESC = 'DESC';
+
     /**
      * @return array
      */
     public function getQuery(): array;
+
+    /**
+     * @param string $fieldName
+     * @param string $asc
+     * @return $this
+     */
+    public function orderBy(string $fieldName, string $asc);
 
     /**
      * @param string $fieldName
@@ -27,4 +37,10 @@ interface IJql extends IItem
      * @return $this
      */
     public function andCondition(string $fieldName, string $condition, string $value);
+
+    /**
+     * @param array $conditions
+     * @return $this
+     */
+    public function andConditions(array $conditions);
 }

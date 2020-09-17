@@ -3,7 +3,6 @@ namespace extas\interfaces\jira;
 
 use extas\interfaces\IItem;
 use extas\interfaces\jira\results\IResultSearch;
-use GuzzleHttp\ClientInterface;
 
 /**
  * Interface IJiraClient
@@ -31,9 +30,4 @@ interface IJiraClient extends IItem
      * @return array
      */
     public function getCredentials(): array;
-
-    /**
-     * @return ClientInterface
-     */
-    public function getHttpClient(): ClientInterface;
 }

@@ -20,7 +20,7 @@ trait THasSchema
      */
     public function getSchema(): array
     {
-        $itemsData = $this->config[IHasSchema::FIELD__NAME] ?? [];
+        $itemsData = $this->config[IHasSchema::FIELD__SCHEMA] ?? [];
         $items = [];
 
         foreach ($itemsData as $name => $item) {

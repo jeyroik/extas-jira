@@ -12,12 +12,14 @@ use extas\interfaces\jira\IJql;
  */
 class Jql extends Item implements IJql
 {
+    protected string $orderBy = '';
+
     /**
      * @return string
      */
     public function __toString(): string
     {
-        return '(' . implode(') and (', $this->getQuery()) . ')';
+        return '(' . implode(') and (', $this->getQuery()) . ')' . $this->orderBy;
     }
 
     /**
@@ -31,6 +33,31 @@ class Jql extends Item implements IJql
         $query = $this->getQuery();
         $query[] = $fieldName . ' ' . $condition . ' ' . $value;
         $this->config[static::FIELD__QUERY] = $query;
+
+        return $this;
+    }
+
+    /**
+     * @param string $fieldName
+     * @param string $asc
+     * @return $this|Jql
+     */
+    public function orderBy(string $fieldName, string $asc)
+    {
+        $this->orderBy = ' ORDER BY ' . $fieldName . ' ' . $asc;
+
+        return $this;
+    }
+
+    /**
+     * @param array $conditions [ ['field1', '=', 'value1'], ['field2', '>' , 'value2'], ... ]
+     * @return $this|Jql
+     */
+    public function andConditions(array $conditions)
+    {
+        foreach ($conditions as $condition) {
+            $this->andCondition(...$condition);
+        }
 
         return $this;
     }

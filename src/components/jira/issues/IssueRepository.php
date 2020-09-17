@@ -4,9 +4,9 @@ namespace extas\components\jira\issues;
 use extas\components\exceptions\MissedOrUnknown;
 use extas\components\jira\JiraRepository;
 use extas\components\jira\results\issues\SearchResult;
-use extas\interfaces\jira\issues\IIssue;
 use extas\interfaces\jira\results\issues\ISearchResult;
 use extas\interfaces\repositories\IRepository;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Class IssueRepository
@@ -35,20 +35,19 @@ class IssueRepository extends JiraRepository
      * @param $where
      * @param int $offset
      * @param array $fields
-     * @return IIssue|null
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \extas\components\exceptions\MissedOrUnknown
+     * @return ISearchResult|null
+     * @throws GuzzleException
+     * @throws MissedOrUnknown
      */
     public function one($where, int $offset = 0, array $fields = [])
     {
         /**
          * @var ISearchResult $result
          */
-        $result = $this->get($where, $offset, 1);
+        $result = $this->get($where, $offset, 1, [], $fields);
 
         if ($result->getTotal()) {
-            $items = $result->getIssues();
-            return array_shift($items);
+            return $result;
         }
 
         return null;
@@ -60,7 +59,7 @@ class IssueRepository extends JiraRepository
      * @param int $offset
      * @param array $orderBy
      * @param array $fields
-     * @return array|IIssue[]
+     * @return ISearchResult
      * @throws MissedOrUnknown
      */
     public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
@@ -68,9 +67,7 @@ class IssueRepository extends JiraRepository
         /**
          * @var ISearchResult $result
          */
-        $result = $this->get($where, $offset, $limit);
-
-        return $result->getIssues();
+        return $this->get($where, $offset, $limit, $orderBy, $fields);
     }
 
     /**
