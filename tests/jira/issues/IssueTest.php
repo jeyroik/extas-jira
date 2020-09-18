@@ -348,6 +348,10 @@ class IssueTest extends TestCase
             $link->getFieldOutwardIssue(),
             'Missed outward issue: ' . print_r($link->__toArray(), true)
         );
+        $this->assertNotEmpty(
+            $link->getFieldInwardIssue(),
+            'Missed inward issue: ' . print_r($link->__toArray(), true)
+        );
     }
 
     protected function fieldIssueType(IIssue $issue)
@@ -472,6 +476,11 @@ class IssueTest extends TestCase
         $status = $issue->getField(IStatus::NAME);
         $category = $status->getFieldStatusCategory();
         $this->assertNotEmpty($category, 'Missed status category :' . print_r($status->__toArray(), true));
+        $this->assertEquals(
+            'yellow',
+            $category->getFieldColorName(),
+            'Incorrect status category color name: ' . print_r($category->__toArray(), true)
+        );
         $this->assertEquals(
             [
                 'self' => 'https://some.url/rest/api/2/statuscategory/4',
