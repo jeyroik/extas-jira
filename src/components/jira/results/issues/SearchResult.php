@@ -2,6 +2,7 @@
 namespace extas\components\jira\results\issues;
 
 use extas\components\Item;
+use extas\components\jira\issues\fields\Field;
 use extas\components\jira\results\THasIssues;
 use extas\components\jira\results\THasMaxResults;
 use extas\components\jira\results\THasNames;
@@ -27,6 +28,48 @@ class SearchResult extends Item implements ISearchResult
     use THasStartAt;
     use THasTotal;
     use THasSchema;
+
+    /**
+     * Issues constructor.
+     * @param array $config
+     */
+    public function __construct(array $config = [])
+    {
+        parent::__construct($config);
+
+        $issues = $this->getIssues();
+        $names = $this->getNames();
+        $schemaList = $this->getSchema();
+
+        foreach ($issues as $index => $issue) {
+            $issue[IIssue::FIELD__FIELDS] = $this->enrichFields($issue->getFields(), $names, $schemaList);
+            $issues[$index] = $issue->__toArray();
+        }
+
+        $this[static::FIELD__ISSUES] = $issues;
+    }
+
+    /**
+     * @param array $fields
+     * @param array $names
+     * @param array $schemaList
+     * @return array
+     */
+    protected function enrichFields(array $fields, array $names, array $schemaList): array
+    {
+        foreach ($fields as $name => $field) {
+            $detailed = new Field([
+                Field::FIELD__NAME => $name,
+                Field::FIELD__SCHEMA => $schemaList[$name]->__toArray(),
+                Field::FIELD__TITLE => $names[$name],
+                Field::FIELD__DESCRIPTION => $names[$name]
+            ]);
+            $detailed->addParametersByValues($field->__toArray());
+            $fields[$name] = $detailed->__toArray();
+        }
+
+        return $fields;
+    }
 
     /**
      * @return bool

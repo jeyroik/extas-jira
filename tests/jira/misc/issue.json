@@ -1,0 +1,303 @@
+{
+  "fields": {
+    "aggregateprogress": {
+      "parameters": {
+        "progress": {
+          "name": "progress",
+          "value": "10500"
+        },
+        "total": {
+          "name": "total",
+          "value": "19500"
+        },
+        "percent": {
+          "name": "percent",
+          "value": "53"
+        }
+      }
+    },
+    "aggregatetimeestimate": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": 110
+        }
+      }
+    },
+    "aggregatetimeoriginalestimate": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": 110
+        }
+      }
+    },
+    "aggregatetimespent": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": 110
+        }
+      }
+    },
+    "assignee": {
+      "parameters": {
+        "emailAddress": {
+          "name": "emailAddress",
+          "value": "jeyroik@gmail.com"
+        },
+        "active": {
+          "name": "active",
+          "value": true
+        },
+        "displayName": {
+          "name": "displayName",
+          "value": "Jey Roik"
+        },
+        "timeZone": {
+          "name": "timeZone",
+          "value": "Europe/Moscow"
+        }
+      }
+    },
+    "created": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": "2020-08-14T14:27:08.000+0300"
+        }
+      }
+    },
+    "creator": {
+      "parameters": {
+        "emailAddress": {
+          "name": "emailAddress",
+          "value": "jeyroik@gmail.com"
+        },
+        "active": {
+          "name": "active",
+          "value": true
+        },
+        "displayName": {
+          "name": "displayName",
+          "value": "Jey Roik"
+        },
+        "timeZone": {
+          "name": "timeZone",
+          "value": "Europe/Moscow"
+        }
+      }
+    },
+    "description": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": "test"
+        }
+      }
+    },
+    "duedate": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": "2020-08-14T14:27:08.000+0300"
+        }
+      }
+    },
+    "issuelinks": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": [
+            {
+              "id": "47781",
+              "self": "https://some.url/rest/api/2/issueLink/47781",
+              "type": {
+                "id": "10300",
+                "name": "Parent",
+                "inward": "is Child of",
+                "outward": "is Parent of",
+                "self": "https://some.url/rest/api/2/issueLinkType/10300"
+              },
+              "outwardIssue": {
+                "id": "95778",
+                "key": "JRK-57",
+                "self": "https://some.url/rest/api/2/issue/95778",
+                "fields": {
+                  "summary": "Test parent",
+                  "status": {
+                    "self": "https://some.url/rest/api/2/status/11008",
+                    "description": "This status is managed internally by JIRA Software",
+                    "iconUrl": "https://some.url/",
+                    "name": "Finished",
+                    "id": "11008",
+                    "statusCategory": {
+                      "self": "https://some.url/rest/api/2/statuscategory/3",
+                      "id": 3,
+                      "key": "done",
+                      "colorName": "green",
+                      "name": "Done"
+                    }
+                  },
+                  "priority": {
+                    "self": "https://some.url/rest/api/2/priority/3",
+                    "iconUrl": "https://some.url/images/icons/priorities/medium.svg",
+                    "name": "Medium",
+                    "id": "3"
+                  },
+                  "issuetype": {
+                    "self": "https://some.url/rest/api/2/issuetype/3",
+                    "id": "3",
+                    "description": "A task that needs to be done.",
+                    "iconUrl": "https://some.url/secure/viewavatar?size=xsmall&avatarId=10318&avatarType=issuetype",
+                    "name": "Task",
+                    "subtask": false,
+                    "avatarId": 10318
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "issuetype": {
+      "parameters": {
+        "avatarId": {
+          "name": "avatarId",
+          "value": 10318
+        },
+        "subtask": {
+          "name": "subtask",
+          "value": false
+        }
+      }
+    },
+    "labels": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": ["test", "is ok"]
+        }
+      }
+    },
+    "priority": {
+      "parameters": {
+        "iconUrl": {
+          "name": "iconUrl",
+          "value": "https://some.url/images/icons/priorities/medium.svg"
+        }
+      }
+    },
+    "progress": {
+      "parameters": {
+        "progress": {
+          "name": "progress",
+          "value": "10500"
+        },
+        "total": {
+          "name": "total",
+          "value": "19500"
+        },
+        "percent": {
+          "name": "percent",
+          "value": "53"
+        }
+      }
+    },
+    "project": {
+      "parameters": {
+        "projectTypeKey": {
+          "name": "projectTypeKey",
+          "value": "software"
+        }
+      }
+    },
+    "reporter": {
+      "parameters": {
+        "emailAddress": {
+          "name": "emailAddress",
+          "value": "jeyroik@gmail.com"
+        },
+        "active": {
+          "name": "active",
+          "value": true
+        },
+        "displayName": {
+          "name": "displayName",
+          "value": "Jey Roik"
+        },
+        "timeZone": {
+          "name": "timeZone",
+          "value": "Europe/Moscow"
+        }
+      }
+    },
+    "status": {
+      "parameters": {
+        "description": {
+          "name": "description",
+          "value": "test"
+        },
+        "statusCategory": {
+          "name": "statusCategory",
+          "value": {
+            "self": "https://some.url/rest/api/2/statuscategory/4",
+            "id": 4,
+            "key": "indeterminate",
+            "colorName": "yellow",
+            "name": "In Progress"
+          }
+        }
+      }
+    },
+    "summary": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": "test"
+        }
+      }
+    },
+    "timeestimate": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": 110
+        }
+      }
+    },
+    "timeoriginalestimate": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": 110
+        }
+      }
+    },
+    "timespent": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": 110
+        }
+      }
+    },
+    "updated": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": "2020-08-14T14:27:08.000+0300"
+        }
+      }
+    },
+    "workratio": {
+      "parameters": {
+        "value": {
+          "name": "value",
+          "value": 110
+        }
+      }
+    }
+  }
+}
