@@ -3,11 +3,14 @@ namespace tests\jira\issues;
 
 use Dotenv\Dotenv;
 use extas\components\extensions\Extension;
+use extas\components\extensions\jira\fields\ExtensionNativeFields;
 use extas\components\extensions\jira\fields\ExtensionProject;
 use extas\components\jira\results\issues\SearchResult;
 use extas\components\repositories\TSnuffRepositoryDynamic;
+use extas\interfaces\extensions\jira\fields\IExtensionNativeFields;
 use extas\interfaces\extensions\jira\fields\IExtensionProject;
 use extas\interfaces\jira\ISchemaItem;
+use extas\interfaces\jira\issues\fields\IProject;
 use extas\interfaces\jira\issues\IIssue;
 use PHPUnit\Framework\TestCase;
 
@@ -28,12 +31,12 @@ class SearchResultTest extends TestCase
         $env->load();
         $this->createSnuffDynamicRepositories([]);
         $this->createWithSnuffRepo('extensionRepository', new Extension([
-            Extension::FIELD__CLASS => ExtensionProject::class,
-            Extension::FIELD__INTERFACE => IExtensionProject::class,
+            Extension::FIELD__CLASS => ExtensionNativeFields::class,
+            Extension::FIELD__INTERFACE => IExtensionNativeFields::class,
             Extension::FIELD__SUBJECT => 'extas.jira.issue.field',
             Extension::FIELD__METHODS => [
-                'getProjectId', 'getProjectKey', 'getProjectName', 'getProjectSelf',
-                'getProjectTypeKey', 'getProjectAvatarUrls'
+                'getFieldId', 'getFieldKey', 'getFieldName', 'getFieldSelf',
+                'getFieldProjectTypeKey', 'getFieldAvatarUrls'
             ]
         ]));
     }
@@ -108,32 +111,32 @@ class SearchResultTest extends TestCase
                     $field->getSchema()->__toArray()
                 );
                 /**
-                 * @var IExtensionProject $field
+                 * @var IProject $field
                  */
                 $this->assertEquals(
                     'https://some.url/rest/api/2/project/10114',
-                    $field->getProjectSelf(),
-                    'Incorrect "project" self: ' . $field->getProjectSelf()
+                    $field->getFieldSelf(),
+                    'Incorrect "project" self: ' . print_r($field->__toArray(), true)
                 );
                 $this->assertEquals(
                     10114,
-                    $field->getProjectId(),
-                    'Incorrect "project" id: ' . $field->getProjectId()
+                    $field->getFieldId(),
+                    'Incorrect "project" id: ' . print_r($field->__toArray(), true)
                 );
                 $this->assertEquals(
                     'JRK',
-                    $field->getProjectKey(),
-                    'Incorrect "project" key: ' . $field->getProjectKey()
+                    $field->getFieldKey(),
+                    'Incorrect "project" key: ' . print_r($field->__toArray(), true)
                 );
                 $this->assertEquals(
                     'Jeyroik Project',
-                    $field->getProjectName(),
-                    'Incorrect "project" name: ' . $field->getProjectName()
+                    $field->getFieldName(),
+                    'Incorrect "project" name: ' . print_r($field->__toArray(), true)
                 );
                 $this->assertEquals(
                     'software',
-                    $field->getProjectTypeKey(),
-                    'Incorrect "project" type key: ' . $field->getProjectTypeKey()
+                    $field->getFieldProjectTypeKey(),
+                    'Incorrect "project" type key: ' . print_r($field->__toArray(), true)
                 );
                 $this->assertEquals(
                     [
@@ -142,8 +145,8 @@ class SearchResultTest extends TestCase
                         "16x16" => "https://some.url/secure/projectavatar?size=xsmall&pid=10114&avatarId=10657",
                         "32x32" => "https://some.url/secure/projectavatar?size=medium&pid=10114&avatarId=10657"
                     ],
-                    $field->getProjectAvatarUrls(),
-                    'Incorrect "project" avatar urls: ' . print_r($field->getProjectAvatarUrls(), true)
+                    $field->getFieldAvatarUrls(),
+                    'Incorrect "project" avatar urls: ' . print_r($field->getFieldAvatarUrls(), true)
                 );
             } else {
                 $this->assertEquals(

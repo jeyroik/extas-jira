@@ -4,10 +4,12 @@ namespace tests\jira\issues;
 use Dotenv\Dotenv;
 use extas\components\extensions\Extension;
 use extas\components\extensions\jira\ExtensionJiraRepositories;
+use extas\components\extensions\jira\fields\ExtensionNativeFields;
 use extas\components\extensions\jira\jql\ExtensionIn;
 use extas\components\extensions\jira\uri\ExtensionExpand;
 use extas\components\http\TSnuffHttp;
 use extas\components\Item;
+use extas\components\jira\issues\fields\IssueLink;
 use extas\components\jira\issues\Issue;
 use extas\components\jira\issues\IssueRepository;
 use extas\components\jira\Jql;
@@ -16,11 +18,40 @@ use extas\components\repositories\TSnuffRepositoryDynamic;
 use extas\components\secrets\resolvers\ResolverPhpEncryption;
 use extas\components\secrets\Secret;
 use extas\components\THasMagicClass;
+use extas\interfaces\extensions\jira\fields\IExtensionNativeFields;
+use extas\interfaces\extensions\jira\fields\IHasFieldIssueLinks;
+use extas\interfaces\extensions\jira\fields\IHasFieldValue;
 use extas\interfaces\extensions\jira\IExtensionJiraRepositories;
 use extas\interfaces\extensions\jira\jql\IExtensionIn;
 use extas\interfaces\extensions\jira\uri\IExtensionExpand;
 use extas\interfaces\jira\IJIraRepository;
 use extas\interfaces\jira\IJql;
+use extas\interfaces\jira\issues\fields\IAggregateProgress;
+use extas\interfaces\jira\issues\fields\IAggregateTimeEstimate;
+use extas\interfaces\jira\issues\fields\IAggregateTimeOriginalEstimate;
+use extas\interfaces\jira\issues\fields\IAggregateTimeSpent;
+use extas\interfaces\jira\issues\fields\IAssignee;
+use extas\interfaces\jira\issues\fields\ICreated;
+use extas\interfaces\jira\issues\fields\ICreator;
+use extas\interfaces\jira\issues\fields\IDescription;
+use extas\interfaces\jira\issues\fields\IDueDate;
+use extas\interfaces\jira\issues\fields\IField;
+use extas\interfaces\jira\issues\fields\IIssueLinks;
+use extas\interfaces\jira\issues\fields\IIssueType;
+use extas\interfaces\jira\issues\fields\ILabels;
+use extas\interfaces\jira\issues\fields\IPriority;
+use extas\interfaces\jira\issues\fields\IProgress;
+use extas\interfaces\jira\issues\fields\IProject;
+use extas\interfaces\jira\issues\fields\IReporter;
+use extas\interfaces\jira\issues\fields\IStatus;
+use extas\interfaces\jira\issues\fields\IStatusCategory;
+use extas\interfaces\jira\issues\fields\ISummary;
+use extas\interfaces\jira\issues\fields\ITimeEstimate;
+use extas\interfaces\jira\issues\fields\ITimeOriginalEstimate;
+use extas\interfaces\jira\issues\fields\ITimeSpent;
+use extas\interfaces\jira\issues\fields\IUpdated;
+use extas\interfaces\jira\issues\fields\IWorkRatio;
+use extas\interfaces\jira\issues\IIssue;
 use extas\interfaces\jira\results\issues\ISearchResult;
 use extas\interfaces\samples\parameters\ISampleParameter;
 use PHPUnit\Framework\TestCase;
@@ -196,6 +227,340 @@ class IssueTest extends TestCase
 
         $this->expectExceptionMessage('Can not decrypt Jira instance "test" config');
         $item->find([]);
+    }
+
+    public function testFieldsExtensions()
+    {
+        $this->createWithSnuffRepo('extensionRepository', new Extension([
+            Extension::FIELD__CLASS => ExtensionNativeFields::class,
+            Extension::FIELD__INTERFACE => IExtensionNativeFields::class,
+            Extension::FIELD__SUBJECT => 'extas.jira.issue.field',
+            Extension::FIELD__METHODS => [
+                'getFieldId', 'getFieldKey', 'getFieldName', 'getFieldSelf',
+                'getFieldProjectTypeKey', 'getFieldAvatarUrls',
+                'getFieldIconUrl', 'getFieldValue', 'getFieldEmailAddress',
+                'getFieldDisplayName', 'getFieldActive', 'getFieldTimeZone',
+                'getFieldStatusCategory', 'getFieldProgress', 'getFieldTotal',
+                'getFieldPercent', 'getFieldAvatarId', 'getFieldSubtask',
+                'getFieldLinkType', 'getFieldInwardIssue', 'getFieldOutwardIssue',
+                'getFieldLinks'
+            ]
+        ]));
+
+        $data = json_decode(file_get_contents(getcwd() . '/tests/jira/misc/issue.json'), true);
+        $issue = new Issue($data);
+
+        $this->fieldProgress($issue, IAggregateProgress::NAME);
+        $this->fieldAggregateTimeEstimate($issue);
+        $this->fieldAggregateTimeOriginalEstimate($issue);
+        $this->fieldAggregateTimeSpent($issue);
+        $this->fieldAssignee($issue);
+        $this->fieldCreated($issue);
+        $this->fieldCreator($issue);
+        $this->fieldDescription($issue);
+        $this->fieldDueDate($issue);
+        $this->fieldIssueLinks($issue);
+        $this->fieldIssueType($issue);
+        $this->fieldLabels($issue);
+        $this->fieldPriority($issue);
+        $this->fieldProgress($issue);
+        $this->fieldProject($issue);
+        $this->fieldReporter($issue);
+        $this->fieldStatus($issue);
+        $this->fieldSummary($issue);
+        $this->fieldTimeEstimate($issue);
+        $this->fieldTimeOriginalEstimate($issue);
+        $this->fieldTimeSpent($issue);
+        $this->fieldUpdated($issue);
+        $this->fieldWorkRatio($issue);
+    }
+
+    protected function fieldAggregateTimeEstimate(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, IAggregateTimeEstimate::NAME, 110);
+    }
+
+    protected function fieldAggregateTimeOriginalEstimate(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, IAggregateTimeOriginalEstimate::NAME, 110);
+    }
+
+    protected function fieldAggregateTimeSpent(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, IAggregateTimeSpent::NAME, 110);
+    }
+
+    protected function fieldAssignee(IIssue $issue)
+    {
+        $this->fieldWithuser($issue, IAssignee::NAME);
+    }
+
+    protected function fieldCreated(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, ICreated::NAME, '2020-08-14T14:27:08.000+0300');
+    }
+
+    protected function fieldCreator(IIssue $issue)
+    {
+        $this->fieldWithuser($issue, ICreator::NAME);
+    }
+
+    protected function fieldDescription(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, IDescription::NAME, 'test');
+    }
+
+    protected function fieldDueDate(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, IDueDate::NAME, '2020-08-14T14:27:08.000+0300');
+    }
+
+    protected function fieldIssueLinks(IIssue $issue)
+    {
+        $this->assertTrue(
+            $issue->hasField(IIssueLinks::NAME),
+            'Can not find "' . IIssueLinks::NAME . '" field: ' . print_r($issue->__toArray(), true)
+        );
+
+        /**
+         * @var IHasFieldIssueLinks $field
+         */
+        $field = $issue->getField(IIssueLinks::NAME);
+        $links = $field->getFieldLinks();
+        $this->assertNotEmpty($links, 'Missed issue links: ' . print_r($field->__toArray(), true));
+        $link = array_shift($links);
+        $this->assertInstanceOf(
+            IssueLink::class,
+            $link,
+            'Incorrect link instance: ' . get_class($link)
+        );
+        $this->assertEquals(
+            'is Child of',
+            $link->getFieldLinkType()->getInward(),
+            'Incorrect inward: ' . print_r($link->__toArray(), true)
+        );
+        $this->assertEquals(
+            'is Parent of',
+            $link->getFieldLinkType()->getOutward(),
+            'Incorrect outward: ' . $link->getFieldLinkType()->getOutward()
+        );
+        $this->assertNotEmpty(
+            $link->getFieldOutwardIssue(),
+            'Missed outward issue: ' . print_r($link->__toArray(), true)
+        );
+    }
+
+    protected function fieldIssueType(IIssue $issue)
+    {
+        $this->assertTrue(
+            $issue->hasField(IIssueType::NAME),
+            'Can not find "' . IIssueType::NAME . '" field: ' . print_r($issue->__toArray(), true)
+        );
+
+        /**
+         * @var IIssueType $type
+         */
+        $type = $issue->getField(IIssueType::NAME);
+        $this->assertEquals(
+            10318,
+            $type->getFieldAvatarId(),
+            'Incorrect issue type avatar id: ' . print_r($type->__toArray(), true)
+        );
+        $this->assertFalse(
+            $type->getFieldSubtask(),
+            'Incorrect issue type subtask: ' . print_r($type->__toArray(), true)
+        );
+    }
+
+    protected function fieldLabels(IIssue $issue)
+    {
+        $this->assertTrue(
+            $issue->hasField(ILabels::NAME),
+            'Can not find "' . ILabels::NAME . '" field: ' . print_r($issue->__toArray(), true)
+        );
+
+        /**
+         * @var ILabels $labels
+         */
+        $labels = $issue->getField(ILabels::NAME);
+        $this->assertEquals(
+            ['test', 'is ok'],
+            $labels->getFieldValue(),
+            'Incorrect labels value: ' . print_r($labels->__toArray(), true)
+        );
+    }
+
+    protected function fieldPriority(IIssue $issue)
+    {
+        $this->assertTrue(
+            $issue->hasField(IPriority::NAME),
+            'Can not find "' . IPriority::NAME . '" field: ' . print_r($issue->__toArray(), true)
+        );
+        /**
+         * @var IPriority|IField $priority
+         */
+        $priority = $issue->getField(IPriority::NAME);
+        $this->assertEquals(
+            'https://some.url/images/icons/priorities/medium.svg',
+            $priority->getFieldIconUrl(),
+            'Incorrect icon url: ' . print_r($priority->__toArray(), true)
+        );
+    }
+
+    protected function fieldProgress(IIssue $issue, string $fieldName = IProgress::NAME)
+    {
+        $this->assertTrue(
+            $issue->hasField($fieldName),
+            'Can not find "' . $fieldName . '" field: ' . print_r($issue->__toArray(), true)
+        );
+
+        /**
+         * @var IProgress $field
+         */
+        $field = $issue->getField($fieldName);
+        $this->assertEquals(
+            10500,
+            $field->getFieldProgress(),
+            'Incorrect ' . $fieldName . ' progress: ' . print_r($field->__toArray(), true)
+        );
+        $this->assertEquals(
+            19500,
+            $field->getFieldTotal(),
+            'Incorrect ' . $fieldName . ' total: ' . print_r($field->__toArray(), true)
+        );
+        $this->assertEquals(
+            53,
+            $field->getFieldPercent(),
+            'Incorrect ' . $fieldName . ' percent: ' . print_r($field->__toArray(), true)
+        );
+    }
+
+    protected function fieldProject(IIssue $issue)
+    {
+        $this->assertTrue(
+            $issue->hasField(IProject::NAME),
+            'Can not find "' . IProject::NAME . '" field: ' . print_r($issue->__toArray(), true)
+        );
+
+        /**
+         * @var IProject
+         */
+        $project = $issue->getField(IProject::NAME);
+
+        $this->assertEquals(
+            'software',
+            $project->getFieldProjectTypeKey(),
+            'Incorrect project type key: ' . $project->getFieldProjectTypeKey()
+        );
+    }
+
+    protected function fieldReporter(IIssue $issue)
+    {
+        $this->fieldWithuser($issue, IReporter::NAME);
+    }
+
+    protected function fieldStatus(IIssue $issue)
+    {
+        $this->assertTrue(
+            $issue->hasField(IStatus::NAME),
+            'Can not find "' . IStatus::NAME . '" field: ' . print_r($issue->__toArray(), true)
+        );
+
+        /**
+         * @var IStatus $status
+         */
+        $status = $issue->getField(IStatus::NAME);
+        $category = $status->getFieldStatusCategory();
+        $this->assertNotEmpty($category, 'Missed status category :' . print_r($status->__toArray(), true));
+        $this->assertEquals(
+            [
+                'self' => 'https://some.url/rest/api/2/statuscategory/4',
+                'id' => 4,
+                'key' => 'indeterminate',
+                'colorName' => 'yellow',
+                'name' => 'In Progress'
+            ],
+            $category->getParametersValues(),
+            'Incorrect status category: ' . print_r($category->getParametersValues(), true)
+        );
+    }
+
+    protected function fieldSummary(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, ISummary::NAME, 'test');
+    }
+
+    protected function fieldTimeEstimate(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, ITimeEstimate::NAME, 110);
+    }
+
+    protected function fieldTimeOriginalEstimate(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, ITimeOriginalEstimate::NAME, 110);
+    }
+
+    protected function fieldTimeSpent(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, ITimeSpent::NAME, 110);
+    }
+
+    protected function fieldUpdated(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, IUpdated::NAME, '2020-08-14T14:27:08.000+0300');
+    }
+
+    protected function fieldWorkRatio(IIssue $issue)
+    {
+        $this->fieldWithValue($issue, IWorkRatio::NAME, 110);
+    }
+
+    protected function fieldWithuser(IIssue $issue, string $fieldName)
+    {
+        $this->assertTrue(
+            $issue->hasField($fieldName),
+            'Can not find "' . $fieldName . '" field: ' . print_r($issue->__toArray(), true)
+        );
+        /**
+         * @var IAssignee|IField $assignee
+         */
+        $assignee = $issue->getField($fieldName);
+        $this->assertEquals(
+            'jeyroik@gmail.com',
+            $assignee->getFieldEmailAddress(),
+            'Incorrect ' . $fieldName . ' email address: ' . print_r($assignee->__toArray(), true)
+        );
+        $this->assertEquals(
+            true,
+            $assignee->getFieldActive(),
+            'Incorrect ' . $fieldName . ' active: ' . print_r($assignee->__toArray(), true)
+        );
+        $this->assertEquals(
+            'Jey Roik',
+            $assignee->getFieldDisplayName(),
+            'Incorrect ' . $fieldName . ' display name: ' . print_r($assignee->__toArray(), true)
+        );
+        $this->assertEquals(
+            'Europe/Moscow',
+            $assignee->getFieldTimeZone(),
+            'Incorrect ' . $fieldName . ' time zone: ' . print_r($assignee->__toArray(), true)
+        );
+    }
+
+    protected function fieldWithValue(IIssue $issue, string $fieldName, $value)
+    {
+        $this->assertTrue(
+            $issue->hasField($fieldName),
+            'Can not find "' . $fieldName . '" field: '
+            . print_r($issue->__toArray(), true)
+        );
+
+        $field = $issue->getField($fieldName);
+        $this->assertEquals(
+            $value,
+            $field->getFieldValue(),
+            'Incorrect ' . $fieldName . ' value: ' . $field->getFieldValue()
+        );
     }
 
     protected function getSearchItem()

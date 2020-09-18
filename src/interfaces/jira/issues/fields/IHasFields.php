@@ -15,4 +15,16 @@ interface IHasFields
      * @return IField[]
      */
     public function getFields(): array;
+
+    /**
+     * @param string $name
+     * @return IField
+     */
+    public function getField(string $name): IField;
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function hasField(string $name): bool;
 }
