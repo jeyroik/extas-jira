@@ -243,7 +243,7 @@ class IssueTest extends TestCase
                 'getFieldStatusCategory', 'getFieldProgress', 'getFieldTotal',
                 'getFieldPercent', 'getFieldAvatarId', 'getFieldSubtask',
                 'getFieldLinkType', 'getFieldInwardIssue', 'getFieldOutwardIssue',
-                'getFieldLinks'
+                'getFieldLinks', 'getFieldDescription'
             ]
         ]));
 
@@ -474,6 +474,13 @@ class IssueTest extends TestCase
          * @var IStatus $status
          */
         $status = $issue->getField(IStatus::NAME);
+
+        $this->assertEquals(
+            'test',
+            $status->getFieldDescription(),
+            'incorrect status description: ' . print_r($status->__toArray(), true)
+        );
+
         $category = $status->getFieldStatusCategory();
         $this->assertNotEmpty($category, 'Missed status category :' . print_r($status->__toArray(), true));
         $this->assertEquals(

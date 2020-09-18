@@ -235,6 +235,10 @@
     },
     "status": {
       "parameters": {
+        "description": {
+          "name": "description",
+          "value": "test"
+        },
         "statusCategory": {
           "name": "statusCategory",
           "value": {
