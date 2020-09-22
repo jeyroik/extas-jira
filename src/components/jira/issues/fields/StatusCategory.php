@@ -13,13 +13,8 @@ use extas\interfaces\jira\issues\fields\IStatusCategory;
  * @package extas\components\jira\issues\fields
  * @author jeyroik <jeyroik@gmail.com>
  */
-class StatusCategory extends Field implements IStatusCategory
+class StatusCategory extends Field
 {
-    use THasFieldName;
-    use THasFieldKey;
-    use THasFieldId;
-    use THasFieldSelf;
-
     /**
      * StatusCategory constructor.
      * @param array $config
@@ -35,6 +30,6 @@ class StatusCategory extends Field implements IStatusCategory
      */
     public function getFieldColorName(): string
     {
-        return $this->getParameterValue(static::PARAM__COLOR_NAME, '');
+        return $this->getParameterValue(IStatusCategory::PARAM__COLOR_NAME, '');
     }
 }

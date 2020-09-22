@@ -4,6 +4,7 @@ namespace extas\components\extensions\jira\fields;
 use extas\components\jira\issues\fields\IssueLink;
 use extas\interfaces\extensions\jira\fields\IHasFieldValue;
 use extas\interfaces\jira\issues\fields\IField;
+use extas\interfaces\jira\issues\fields\IIssueLink;
 
 /**
  * Trait THasFieldIssueLinks
@@ -15,7 +16,7 @@ trait THasFieldIssueLinks
 {
     /**
      * @param IField|null $field
-     * @return array
+     * @return IIssueLink[]
      */
     public function getFieldLinks(IField $field = null): array
     {

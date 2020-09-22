@@ -16,9 +16,9 @@ trait THasFieldStatusCategory
 {
     /**
      * @param IField|null $field
-     * @return IStatusCategory
+     * @return IStatusCategory|mixed
      */
-    public function getFieldStatusCategory(IField $field = null): IStatusCategory
+    public function getFieldStatusCategory(IField $field = null)
     {
         return new StatusCategory(
             $field->getParameterValue(IHasFieldStatusCategory::PARAM__FIELD_STATUS_CATEGORY, 0)
