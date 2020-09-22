@@ -1,3 +1,8 @@
+# 0.1.1
+
+- `IHasFieldStatusCategory` extended.
+- `StatusCategory` fixed.
+
 # 0.1.0
 
 - Клиент для работы с Jira.

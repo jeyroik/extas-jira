@@ -15,7 +15,7 @@ interface IHasFieldStatusCategory
     public const PARAM__FIELD_STATUS_CATEGORY = 'statusCategory';
 
     /**
-     * @return IStatusCategory
+     * @return IStatusCategory|mixed
      */
-    public function getFieldStatusCategory(): IStatusCategory;
+    public function getFieldStatusCategory();
 }
