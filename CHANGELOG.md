@@ -1,3 +1,7 @@
+# 0.2.0
+
+- Issue changelog support added.
+
 # 0.1.1
 
 - `IHasFieldStatusCategory` extended.

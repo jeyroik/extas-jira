@@ -20,12 +20,12 @@ use extas\components\secrets\Secret;
 use extas\components\THasMagicClass;
 use extas\interfaces\extensions\jira\fields\IExtensionNativeFields;
 use extas\interfaces\extensions\jira\fields\IHasFieldIssueLinks;
-use extas\interfaces\extensions\jira\fields\IHasFieldValue;
 use extas\interfaces\extensions\jira\IExtensionJiraRepositories;
 use extas\interfaces\extensions\jira\jql\IExtensionIn;
 use extas\interfaces\extensions\jira\uri\IExtensionExpand;
 use extas\interfaces\jira\IJIraRepository;
 use extas\interfaces\jira\IJql;
+use extas\interfaces\jira\issues\changelog\IHistoryItem;
 use extas\interfaces\jira\issues\fields\IAggregateProgress;
 use extas\interfaces\jira\issues\fields\IAggregateTimeEstimate;
 use extas\interfaces\jira\issues\fields\IAggregateTimeOriginalEstimate;
@@ -44,7 +44,6 @@ use extas\interfaces\jira\issues\fields\IProgress;
 use extas\interfaces\jira\issues\fields\IProject;
 use extas\interfaces\jira\issues\fields\IReporter;
 use extas\interfaces\jira\issues\fields\IStatus;
-use extas\interfaces\jira\issues\fields\IStatusCategory;
 use extas\interfaces\jira\issues\fields\ISummary;
 use extas\interfaces\jira\issues\fields\ITimeEstimate;
 use extas\interfaces\jira\issues\fields\ITimeOriginalEstimate;
@@ -52,6 +51,7 @@ use extas\interfaces\jira\issues\fields\ITimeSpent;
 use extas\interfaces\jira\issues\fields\IUpdated;
 use extas\interfaces\jira\issues\fields\IWorkRatio;
 use extas\interfaces\jira\issues\IIssue;
+use extas\interfaces\jira\issues\changelog\IHistory;
 use extas\interfaces\jira\results\issues\ISearchResult;
 use extas\interfaces\samples\parameters\ISampleParameter;
 use PHPUnit\Framework\TestCase;
@@ -273,6 +273,126 @@ class IssueTest extends TestCase
         $this->fieldTimeSpent($issue);
         $this->fieldUpdated($issue);
         $this->fieldWorkRatio($issue);
+    }
+
+    public function testChangelog()
+    {
+        $this->createWithSnuffRepo('extensionRepository', new Extension([
+            Extension::FIELD__CLASS => ExtensionNativeFields::class,
+            Extension::FIELD__INTERFACE => IExtensionNativeFields::class,
+            Extension::FIELD__SUBJECT => 'extas.jira.issue.field',
+            Extension::FIELD__METHODS => ['getFieldValue']
+        ]));
+
+        $data = json_decode(file_get_contents(getcwd() . '/tests/jira/misc/issue.json'), true);
+        $issue = new Issue($data);
+
+        $changelog = $issue->getChangelog();
+
+        $this->assertNotEmpty(
+            $changelog,
+            'Can not find changelog'
+        );
+
+        $histories = $changelog->getHistory();
+        $this->assertCount(
+            20,
+            $histories,
+            'Incorrect histories count: ' . count($histories)
+        );
+
+        $item = $changelog->one([
+            'author.name' => 'jeyroik',
+            'items' => ['field' => 'Link']
+        ]);
+
+        $this->assertNotEmpty(
+            $item,
+            'Can not find one history with items condition'
+        );
+        $this->assertInstanceOf(IHistory::class, $item, 'incorrect history instance');
+        $this->assertInstanceOf(
+            IField::class,
+            $item->getAuthor(),
+            'Incorrect author'
+        );
+        $this->assertEquals(
+            '2020-08-14T14:27:09.011+0300',
+            $item->getCreated()->getFieldValue(),
+            'Incorrect created'
+        );
+
+        $item = $changelog->one([
+            'author.name' => 'jeyroik',
+            'items' => ['field' => 'unknown']
+        ]);
+
+        $this->assertEmpty($item, 'Incorrect search results by history with items condition');
+
+        $subItem = $changelog->oneItem([
+            'author.name' => 'jeyroik',
+            'items' => ['field' => 'Link']
+        ]);
+
+        $this->assertNotEmpty($subItem, 'Can not find sub item');
+        $this->assertInstanceOf(IHistoryItem::class, $subItem, 'Incorrect sub item instance');
+
+        $this->assertEquals(
+            'Link',
+            $subItem->getField(),
+            'Incorrect "field": ' . print_r($subItem, true)
+        );
+        $this->assertEquals(
+            'jira',
+            $subItem->getFieldType(),
+            'Incorrect "field type": ' . print_r($subItem, true)
+        );
+        $this->assertEquals(
+            null,
+            $subItem->getFrom(),
+            'Incorrect "from": ' . print_r($subItem, true)
+        );
+        $this->assertEquals(
+            null,
+            $subItem->getFromString(),
+            'Incorrect "from string": ' . print_r($subItem, true)
+        );
+        $this->assertEquals(
+            'JRK-50',
+            $subItem->getTo(),
+            'Incorrect "to": ' . print_r($subItem, true)
+        );
+        $this->assertEquals(
+            'This issue is Child of JRK-50',
+            $subItem->getToString(),
+            'Incorrect "to string": ' . print_r($subItem, true)
+        );
+
+        $subItem = $changelog->oneItem([
+            'author.name' => 'jeyroik',
+            'items' => ['field' => 'Unknown']
+        ]);
+        $this->assertEmpty($subItem, 'Incorrect search result by history items');
+
+        $items = $changelog->all([
+            'author.name' => 'jeyroik',
+            'items' => ['field' => 'Link']
+        ]);
+
+        $this->assertCount(1, $items, 'Incorrect items count: ' . count($items));
+
+        $subItems = $changelog->allItems([
+            'author.name' => 'jeyroik',
+            'items' => ['field' => 'Link']
+        ]);
+
+        $this->assertCount(1, $items, 'Incorrect items count: ' . count($subItems));
+
+        $subItems = $changelog->allItems([
+            'author.name' => 'jeyroik'
+        ]);
+
+        $this->assertCount(4, $subItems, 'Incorrect items count: ' . count($subItems));
     }
 
     protected function fieldAggregateTimeEstimate(IIssue $issue)

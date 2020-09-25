@@ -299,5 +299,601 @@
         }
       }
     }
+  },
+  "changelog": {
+    "startAt": 0,
+    "maxResults": 20,
+    "total": 20,
+    "histories": [{
+      "id": "940246",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=jeyroik",
+        "name": "jeyroik",
+        "key": "Jey Roik",
+        "emailAddress": "jeyroik@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=robert+mannanov&avatarId=12509",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=robert+mannanov&avatarId=12509",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=robert+mannanov&avatarId=12509",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=robert+mannanov&avatarId=12509"
+        },
+        "displayName": "Jey Roik",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-08-14T14:27:09.011+0300",
+      "items": [{
+        "field": "Link",
+        "fieldtype": "jira",
+        "from": null,
+        "fromString": null,
+        "to": "JRK-50",
+        "toString": "This issue is Child of JRK-50"
+      }]
+    }, {
+      "id": "940261",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=jeyroik",
+        "name": "jeyroik",
+        "key": "Jey Roik",
+        "emailAddress": "jeyroik@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=robert+mannanov&avatarId=12509",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=robert+mannanov&avatarId=12509",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=robert+mannanov&avatarId=12509",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=robert+mannanov&avatarId=12509"
+        },
+        "displayName": "Jey Roik",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-08-14T14:32:24.459+0300",
+      "items": [{
+        "field": "Rank",
+        "fieldtype": "custom",
+        "from": "",
+        "fromString": "",
+        "to": "",
+        "toString": "Ranked higher"
+      }]
+    }, {
+      "id": "940367",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-08-14T16:22:26.640+0300",
+      "items": [{
+        "field": "timeestimate",
+        "fieldtype": "jira",
+        "from": null,
+        "fromString": null,
+        "to": "7200",
+        "toString": "7200"
+      }, {
+        "field": "timeoriginalestimate",
+        "fieldtype": "jira",
+        "from": null,
+        "fromString": null,
+        "to": "7200",
+        "toString": "7200"
+      }]
+    }, {
+      "id": "940395",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser2",
+        "name": "testuser2",
+        "key": "testuser2",
+        "emailAddress": "testuser2@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser2&avatarId=10644",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser2&avatarId=10644",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser2&avatarId=10644",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser2&avatarId=10644"
+        },
+        "displayName": "Test User 2",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-08-14T16:50:13.898+0300",
+      "items": [{
+        "field": "timeestimate",
+        "fieldtype": "jira",
+        "from": "7200",
+        "fromString": "7200",
+        "to": "9000",
+        "toString": "9000"
+      }, {
+        "field": "timeoriginalestimate",
+        "fieldtype": "jira",
+        "from": "7200",
+        "fromString": "7200",
+        "to": "9000",
+        "toString": "9000"
+      }]
+    }, {
+      "id": "940396",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser2",
+        "name": "testuser2",
+        "key": "testuser2",
+        "emailAddress": "testuser2@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser2&avatarId=10644",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser2&avatarId=10644",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser2&avatarId=10644",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser2&avatarId=10644"
+        },
+        "displayName": "Test User 2",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-08-14T16:50:13.908+0300",
+      "items": [{
+        "field": "resolution",
+        "fieldtype": "jira",
+        "from": null,
+        "fromString": null,
+        "to": "1",
+        "toString": "Fixed"
+      }, {
+        "field": "Time Tracking (By Roles)",
+        "fieldtype": "custom",
+        "from": null,
+        "fromString": "",
+        "to": null,
+        "toString": "(2 hours | 2 hours)"
+      }]
+    }, {
+      "id": "946986",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=jeyroik",
+        "name": "jeyroik",
+        "key": "Jey Roik",
+        "emailAddress": "jeyroik@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=robert+mannanov&avatarId=12509",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=robert+mannanov&avatarId=12509",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=robert+mannanov&avatarId=12509",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=robert+mannanov&avatarId=12509"
+        },
+        "displayName": "Jey Roik",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-08-31T11:06:05.096+0300",
+      "items": [{
+        "field": "Sprint",
+        "fieldtype": "custom",
+        "from": "576",
+        "fromString": "SprintN1",
+        "to": "576, 582",
+        "toString": "SprintN1, SprintN2"
+      }]
+    }, {
+      "id": "949831",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-06T10:42:19.176+0300",
+      "items": [{
+        "field": "status",
+        "fieldtype": "jira",
+        "from": "10128",
+        "fromString": "Backlog",
+        "to": "3",
+        "toString": "In progress"
+      }]
+    }, {
+      "id": "949832",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-06T10:43:28.654+0300",
+      "items": [{
+        "field": "assignee",
+        "fieldtype": "jira",
+        "from": "testuser",
+        "fromString": "Test User",
+        "to": "testuser3",
+        "toString": "Test User 3"
+      }, {
+        "field": "Log Work (By Roles)",
+        "fieldtype": "custom",
+        "from": null,
+        "fromString": null,
+        "to": null,
+        "toString": "2h 30m [Developers]"
+      }, {
+        "field": "status",
+        "fieldtype": "jira",
+        "from": "3",
+        "fromString": "In progress",
+        "to": "11103",
+        "toString": "Готово к ревью"
+      }]
+    }, {
+      "id": "949833",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-06T10:43:28.664+0300",
+      "items": [{
+        "field": "timespent",
+        "fieldtype": "jira",
+        "from": null,
+        "fromString": null,
+        "to": "9000",
+        "toString": "9000"
+      }, {
+        "field": "WorklogId",
+        "fieldtype": "jira",
+        "from": "56213",
+        "fromString": "56213",
+        "to": null,
+        "toString": null
+      }]
+    }, {
+      "id": "949834",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-06T10:43:28.695+0300",
+      "items": [{
+        "field": "Time Tracking (By Roles)",
+        "fieldtype": "custom",
+        "from": null,
+        "fromString": "",
+        "to": null,
+        "toString": "Testers (2 hours, 30 minutes | 2 hours, 30 minutes)\r\nDevelopers (- | 0 minutes)\r\n"
+      }]
+    }, {
+      "id": "952182",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=jeyroik",
+        "name": "jeyroik",
+        "key": "Jey Roik",
+        "emailAddress": "jeyroik@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=robert+mannanov&avatarId=12509",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=robert+mannanov&avatarId=12509",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=robert+mannanov&avatarId=12509",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=robert+mannanov&avatarId=12509"
+        },
+        "displayName": "Jey Roik",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-11T14:07:59.070+0300",
+      "items": [{
+        "field": "Sprint",
+        "fieldtype": "custom",
+        "from": "576, 582",
+        "fromString": "SprintN1, SprintN2",
+        "to": "576, 582, 584",
+        "toString": "SprintN1, SprintN2, SprintN3"
+      }]
+    }, {
+      "id": "953217",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser3",
+        "name": "testuser3",
+        "key": "testuser3",
+        "emailAddress": "testuser3@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser3&avatarId=13604",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser3&avatarId=13604",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser3&avatarId=13604",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser3&avatarId=13604"
+        },
+        "displayName": "Test User 3",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-15T14:35:18.190+0300",
+      "items": [{
+        "field": "status",
+        "fieldtype": "jira",
+        "from": "11103",
+        "fromString": "Готово к ревью",
+        "to": "10600",
+        "toString": "Code review"
+      }]
+    }, {
+      "id": "953218",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser3",
+        "name": "testuser3",
+        "key": "testuser3",
+        "emailAddress": "testuser3@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser3&avatarId=13604",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser3&avatarId=13604",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser3&avatarId=13604",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser3&avatarId=13604"
+        },
+        "displayName": "Test User 3",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-15T14:35:38.813+0300",
+      "items": [{
+        "field": "Log Work (By Roles)",
+        "fieldtype": "custom",
+        "from": null,
+        "fromString": null,
+        "to": null,
+        "toString": "20m [Code Review]"
+      }, {
+        "field": "status",
+        "fieldtype": "jira",
+        "from": "10600",
+        "fromString": "Code review",
+        "to": "10203",
+        "toString": "На доработку"
+      }]
+    }, {
+      "id": "953219",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser3",
+        "name": "testuser3",
+        "key": "testuser3",
+        "emailAddress": "testuser3@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser3&avatarId=13604",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser3&avatarId=13604",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser3&avatarId=13604",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser3&avatarId=13604"
+        },
+        "displayName": "Test User 3",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-15T14:35:38.820+0300",
+      "items": [{
+        "field": "timespent",
+        "fieldtype": "jira",
+        "from": "9000",
+        "fromString": "9000",
+        "to": "10200",
+        "toString": "10200"
+      }, {
+        "field": "WorklogId",
+        "fieldtype": "jira",
+        "from": "56596",
+        "fromString": "56596",
+        "to": null,
+        "toString": null
+      }]
+    }, {
+      "id": "953220",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser3",
+        "name": "testuser3",
+        "key": "testuser3",
+        "emailAddress": "testuser3@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser3&avatarId=13604",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser3&avatarId=13604",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser3&avatarId=13604",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser3&avatarId=13604"
+        },
+        "displayName": "Test User 3",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-15T14:35:38.850+0300",
+      "items": [{
+        "field": "Time Tracking (By Roles)",
+        "fieldtype": "custom",
+        "from": null,
+        "fromString": "",
+        "to": null,
+        "toString": "Testers (2 hours, 30 minutes | 2 hours, 30 minutes)\r\nDevelopers (0 minutes | 0 minutes)\r\nCode Review (- | 0 minutes)\r\n"
+      }]
+    }, {
+      "id": "953221",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser3",
+        "name": "testuser3",
+        "key": "testuser3",
+        "emailAddress": "testuser3@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser3&avatarId=13604",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser3&avatarId=13604",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser3&avatarId=13604",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser3&avatarId=13604"
+        },
+        "displayName": "Test User 3",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-15T14:35:46.533+0300",
+      "items": [{
+        "field": "assignee",
+        "fieldtype": "jira",
+        "from": "testuser3",
+        "fromString": "Test User 3",
+        "to": "testuser",
+        "toString": "Test User"
+      }]
+    }, {
+      "id": "954471",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-17T14:23:58.770+0300",
+      "items": [{
+        "field": "status",
+        "fieldtype": "jira",
+        "from": "10203",
+        "fromString": "На доработку",
+        "to": "11112",
+        "toString": "Доработка"
+      }]
+    }, {
+      "id": "954472",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-17T14:24:11.344+0300",
+      "items": [{
+        "field": "Log Work (By Roles)",
+        "fieldtype": "custom",
+        "from": null,
+        "fromString": null,
+        "to": null,
+        "toString": "5m [Developers]"
+      }, {
+        "field": "status",
+        "fieldtype": "jira",
+        "from": "11112",
+        "fromString": "Доработка",
+        "to": "11104",
+        "toString": "Готово к тесту"
+      }]
+    }, {
+      "id": "954473",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-17T14:24:11.357+0300",
+      "items": [{
+        "field": "timespent",
+        "fieldtype": "jira",
+        "from": "10200",
+        "fromString": "10200",
+        "to": "10500",
+        "toString": "10500"
+      }, {
+        "field": "WorklogId",
+        "fieldtype": "jira",
+        "from": "56671",
+        "fromString": "56671",
+        "to": null,
+        "toString": null
+      }]
+    }, {
+      "id": "954474",
+      "author": {
+        "self": "https://some.url/rest/api/2/user?username=testuser",
+        "name": "testuser",
+        "key": "testuser",
+        "emailAddress": "testuser@some.url",
+        "avatarUrls": {
+          "48x48": "https://some.url/secure/useravatar?ownerId=testuser&avatarId=12222",
+          "24x24": "https://some.url/secure/useravatar?size=small&ownerId=testuser&avatarId=12222",
+          "16x16": "https://some.url/secure/useravatar?size=xsmall&ownerId=testuser&avatarId=12222",
+          "32x32": "https://some.url/secure/useravatar?size=medium&ownerId=testuser&avatarId=12222"
+        },
+        "displayName": "Test User",
+        "active": true,
+        "timeZone": "Europe/Moscow"
+      },
+      "created": "2020-09-17T14:24:18.509+0300",
+      "items": [{
+        "field": "assignee",
+        "fieldtype": "jira",
+        "from": "testuser",
+        "fromString": "Test User",
+        "to": "testuser2",
+        "toString": "Test User 2"
+      }]
+    }]
   }
 }
