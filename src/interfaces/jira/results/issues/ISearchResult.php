@@ -27,4 +27,11 @@ interface ISearchResult extends
     IHasSchema
 {
     public const SUBJECT = 'extas.jira.result.search';
+
+    public const FIELD__IS_ENRICH_ISSUES = 'is_enrich_issues';
+
+    /**
+     * @return bool
+     */
+    public function isEnrichIssues(): bool;
 }

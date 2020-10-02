@@ -1,11 +1,15 @@
+# 0.3.0
+
+- Добавлена возможность отключить обогощение тикетов в `SearchResult`.
+
 # 0.2.0
 
-- Issue changelog support added.
+- Добавлена поддержка changelog'a.
 
 # 0.1.1
 
-- `IHasFieldStatusCategory` extended.
-- `StatusCategory` fixed.
+- Расширен функционал `IHasFieldStatusCategory`.
+- Исправлены ошибки в `StatusCategory`.
 
 # 0.1.0
 

@@ -37,6 +37,19 @@ class SearchResult extends Item implements ISearchResult
     {
         parent::__construct($config);
 
+        $this->isEnrichIssues() && $this->enrichIssues();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnrichIssues(): bool
+    {
+        return $this->config[static::FIELD__IS_ENRICH_ISSUES] ?? true;
+    }
+
+    protected function enrichIssues(): void
+    {
         $issues = $this->getIssues();
         $names = $this->getNames();
         $schemaList = $this->getSchema();
