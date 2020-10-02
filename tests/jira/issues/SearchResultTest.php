@@ -176,4 +176,14 @@ class SearchResultTest extends TestCase
             }
         }
     }
+
+    public function testSkipEnrichIssues()
+    {
+        $result = new SearchResult([
+            SearchResult::FIELD__ISSUES => [1,2,3],
+            SearchResult::FIELD__IS_ENRICH_ISSUES => false
+        ]);
+
+        $this->assertEquals([1,2,3], $result[SearchResult::FIELD__ISSUES]);
+    }
 }
